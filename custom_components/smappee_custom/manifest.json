@@ -1,0 +1,8 @@
+{
+  "domain": "smappee_custom",
+  "name": "Smappee custom integration",
+  "documentation": "",
+  "dependencies": [],
+  "codeowners": ["@carstenschroeder"],
+  "requirements": []
+}
