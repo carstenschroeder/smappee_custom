@@ -1,5 +1,6 @@
 {
   "domain": "smappee_custom",
+  "version": "0.2.0",
   "name": "Smappee custom integration",
   "documentation": "",
   "dependencies": [],
