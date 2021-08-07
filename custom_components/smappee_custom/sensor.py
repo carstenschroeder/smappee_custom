@@ -4,8 +4,8 @@ from datetime import timedelta
 import voluptuous as vol
 
 # Import the device class from the component that you want to support
-from homeassistant.components.sensor import PLATFORM_SCHEMA
-from homeassistant.const import CONF_NAME, CONF_HOST, CONF_PASSWORD
+from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity, STATE_CLASS_MEASUREMENT
+from homeassistant.const import CONF_NAME, CONF_HOST, CONF_PASSWORD, POWER_WATT
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity
 
@@ -166,10 +166,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 
 
-class Smappee_Custom(Entity):
+class Smappee_Custom(SensorEntity):
 
     def __init__(self, name, gateway, phase):
-        self._name = name + phase
         self._phase = phase
         self._gateway = gateway
         if self._gateway.is_valid:
@@ -181,22 +180,16 @@ class Smappee_Custom(Entity):
                 self._state = self._gateway.power_consumption_2
             elif self._phase == '_phase_3':
                 self._state = self._gateway.power_consumption_3
+
+        self._attr_name = name + phase
+        self._attr_unique_id = name + phase
+        self._attr_unit_of_measurement = POWER_WATT
+        self._attr_state_class = STATE_CLASS_MEASUREMENT
      
-    @property
-    def name(self):
-        """Return the display name of this sensor."""
-        return self._name
-        
     @property
     def state(self):
         """Return the state of the sensor."""
         return self._state
-
-    @property
-    def unit_of_measurement(self):
-        """Return the unit of measurement."""
-        return 'Watt'
-
 
     def update(self):
         """Update state of sensor."""
