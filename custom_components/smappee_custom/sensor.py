@@ -173,37 +173,32 @@ class Smappee_Custom(SensorEntity):
         self._gateway = gateway
         if self._gateway.is_valid:
             if self._phase == '_sum':
-                self._state = self._gateway.power_consumption_sum
+                self._attr_state = self._gateway.power_consumption_sum
             elif self._phase == '_phase_1':
-                self._state = self._gateway.power_consumption_1
+                self._attr_state = self._gateway.power_consumption_1
             elif self._phase == '_phase_2':
-                self._state = self._gateway.power_consumption_2
+                self._attr_state = self._gateway.power_consumption_2
             elif self._phase == '_phase_3':
-                self._state = self._gateway.power_consumption_3
+                self._attr_state = self._gateway.power_consumption_3
 
         self._attr_name = name + phase
         self._attr_unique_id = name + phase
         self._attr_unit_of_measurement = POWER_WATT
         self._attr_state_class = STATE_CLASS_MEASUREMENT
      
-    @property
-    def state(self):
-        """Return the state of the sensor."""
-        return self._state
-
     def update(self):
         """Update state of sensor."""
         try:
             self._gateway.update()
             if self._gateway.is_valid:
                 if self._phase == '_sum':
-                    self._state = self._gateway.power_consumption_sum
+                    self._attr_state = self._gateway.power_consumption_sum
                 elif self._phase == '_phase_1':
-                    self._state = self._gateway.power_consumption_1
+                    self._attr_state = self._gateway.power_consumption_1
                 elif self._phase == '_phase_2':
-                    self._state = self._gateway.power_consumption_2
+                    self._attr_state = self._gateway.power_consumption_2
                 elif self._phase == '_phase_3':
-                    self._state = self._gateway.power_consumption_3
+                    self._attr_state = self._gateway.power_consumption_3
                     
         except Exception as ex:
             _LOGGER.error(ex)
