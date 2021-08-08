@@ -4,7 +4,7 @@ from datetime import timedelta
 import voluptuous as vol
 
 # Import the device class from the component that you want to support
-from homeassistant.components.sensor import PLATFORM_SCHEMA, SensorEntity, STATE_CLASS_MEASUREMENT
+from homeassistant.components.sensor import DEVICE_CLASS_POWER, PLATFORM_SCHEMA, SensorEntity, STATE_CLASS_MEASUREMENT
 from homeassistant.const import CONF_NAME, CONF_HOST, CONF_PASSWORD, POWER_WATT
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity
@@ -14,7 +14,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-SCAN_INTERVAL = timedelta(minutes=1)
+SCAN_INTERVAL = timedelta(seconds=15)
 
 # Validation of the user's configuration
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
@@ -185,6 +185,7 @@ class Smappee_Custom(SensorEntity):
         self._attr_unique_id = name + phase
         self._attr_unit_of_measurement = POWER_WATT
         self._attr_state_class = STATE_CLASS_MEASUREMENT
+        self._attr_device_class = DEVICE_CLASS_POWER
      
     def update(self):
         """Update state of sensor."""
